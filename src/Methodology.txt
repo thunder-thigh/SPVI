@@ -1,0 +1,24 @@
+How?
+this is how:
+
+1. Convert image into an array.
+Have every image be representable by a fixed length integer.
+how?
+The integer is made of simple 3 character long sequences. Each sequence is a different property of the image itself.
+Each subsequence is calculated by using the image array.
+
+Aim:
+Make it run on a raspberry pi 3/2
+
+Will keep increasing scope as time and project goes on. Hopefully dimaag mein kuch aur bhi aa jaye
+1. First make simple type of classifier.
+Name it Basic-Tri-Analyzer. BTA. Useful for quickly finding similarity between objects that share a type, ie, both have similar features. Features to check:
+	a. Blobs. Check for size of blobs
+	b. Blobs. Check for shape of blobs.
+	c. Frequency. Check for frequency grouping. Chart frequencies, select the top 50% or the frequenices or select lower/higher frequencies [debateabl]
+		High frequencies cover details. while lower frequenices cover general structuring of shape. Will see what to use.
+it takes two images, creates the identifier of about length 9 character, ie. 3 classifers. and compares proximity using distance between the two identifiers in a 3d space. Simple distance formula.
+Classifers:
+1. Blob sizes in relation to image sizes [first char = total area of blobs/image area. second char = standard deviation, third char = average blob size]
+2. Blob shape [Represent shapes in an integer form. How? for every blob, find median point, and find the distance of median from edges. Calculate standard deviation of distance between boundary and median. first = (mean-SD)/mean, second,third = number of maximas.
+3. Frequencies: IDK maybe chart the areas with the highest amplitude. Get angle of highest amplitudes. Return that angle as the 3rd classifier.
