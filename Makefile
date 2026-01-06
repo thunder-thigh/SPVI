@@ -1,26 +1,35 @@
 ################################
-###### This is a test project for IRoC-U2026
+###### IRoC-U2026 Test Project
 ################################
 
-
 CXX := g++
-CXXFLAGS = -Wall -Wextra
+CXXFLAGS := -Wall -Wextra
 SRC_DIR := src
 BLD_DIR := build
-OBJ_DIR := $(BLD_DIR)/obj 
+OBJ_DIR := $(BLD_DIR)/obj
+TARGET := $(BLD_DIR)/BFF_9
 
 OPENCV_FLAGS := $(shell pkg-config --cflags opencv4)
-OPENCV_LIBS := $(shell pkg-config --libs opencv4)
+OPENCV_LIBS  := $(shell pkg-config --libs opencv4)
 
-DIRS :
+SRCS := $(wildcard $(SRC_DIR)/*.cpp)
+OBJS := $(SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
+
+.PHONY: build run clean dirs
+
+build: dirs $(TARGET)
+
+dirs:
 	mkdir -p $(BLD_DIR) $(OBJ_DIR)
 
-build : $(DIRS)
-	$(CXX) $(CXXFLAGS) $(SRC_DIR)/%.cpp -o $(OBJ_DIR)/%.o $(OPENCV_FLAGS) $(OPENCV_LIBS)
-	$(CXX) $(OBJ_DIR)/*.o -o $(BLD_DIR)/BFF_9
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	$(CXX) $(CXXFLAGS) $(OPENCV_FLAGS) -c $< -o $@
 
-run : $(BLD_DIR)/BFF_9
-	./$(BLD_DIR)/BFF_9
+$(TARGET): $(OBJS)
+	$(CXX) $(OBJS) -o $@ $(OPENCV_LIBS)
 
-clean :
-	rm -rf ./$(BLD_DIR)/
+run: $(TARGET)
+	./$(TARGET)
+
+clean:
+	rm -rf $(BLD_DIR)

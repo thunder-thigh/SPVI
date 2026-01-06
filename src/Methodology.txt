@@ -11,7 +11,6 @@ Aim:
 Make it run on a raspberry pi 3/2
 
 Will keep increasing scope as time and project goes on. Hopefully dimaag mein kuch aur bhi aa jaye
-1. First make simple type of classifier.
 Name it Basic-Tri-Analyzer. BTA. Useful for quickly finding similarity between objects that share a type, ie, both have similar features. Features to check:
 	a. Blobs. Check for size of blobs
 	b. Blobs. Check for shape of blobs.
@@ -19,6 +18,6 @@ Name it Basic-Tri-Analyzer. BTA. Useful for quickly finding similarity between o
 		High frequencies cover details. while lower frequenices cover general structuring of shape. Will see what to use.
 it takes two images, creates the identifier of about length 9 character, ie. 3 classifers. and compares proximity using distance between the two identifiers in a 3d space. Simple distance formula.
 Classifers:
-1. Blob sizes in relation to image sizes [first char = total area of blobs/image area. second char = standard deviation, third char = average blob size]
-2. Blob shape [Represent shapes in an integer form. How? for every blob, find median point, and find the distance of median from edges. Calculate standard deviation of distance between boundary and median. first = (mean-SD)/mean, second,third = number of maximas.
-3. Frequencies: IDK maybe chart the areas with the highest amplitude. Get angle of highest amplitudes. Return that angle as the 3rd classifier.
+1. Blob sizes in relation to image sizes [first char = total area of blobs/image area. second char = standard deviation, third char = average blob size (in relative percentage to image area)]
+2. Blob shape [Represent shapes in an integer form. How? for every blob, find median point, and find the distance of median from edges. Calculate standard deviation of distance between boundary and median. first char = (mean-SD)/mean on a scale of 0 being ocmpletely void of blobs to 10 being filled with blobs, second char = corners (avg number of corner in blobs), third = number of maximas (aka peaks within blob).
+3. Frequencies: in a fourier transform graph, get the angle of the highest frequency. all three chars are used to represent the angle of the frequency 0-360.
