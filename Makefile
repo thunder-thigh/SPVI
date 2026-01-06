@@ -1,24 +1,26 @@
-# Variables
-CXX = g++
-CXXFLAGS = -Wall -g pkg-config --libs opencv4
-TARGET = main
-SRCS = main.cpp square.cpp point.cpp
-OBJS = $(SRCS:.cpp=.o) # Replaces .cpp extensions with .o
-RM = rm -f
+################################
+###### This is a test project for IRoC-U2026
+################################
 
-# Default target
-all: $(TARGET)
 
-# Rule to link object files into the executable
-$(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(OBJS) -o $(TARGET)
+CXX := g++
+CXXFLAGS = -Wall -Wextra
+SRC_DIR := src
+BLD_DIR := build
+OBJ_DIR := $(BLD_DIR)/obj 
 
-# Pattern rule to compile .cpp files into .o files
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+OPENCV_FLAGS := $(shell pkg-config --cflags opencv4)
+OPENCV_LIBS := $(shell pkg-config --libs opencv4)
 
-# Phony targets don't represent actual files, so 'make' doesn't get confused by a file named 'clean'
-.PHONY: clean all
+DIRS :
+	mkdir -p $(BLD_DIR) $(OBJ_DIR)
 
-clean:
-	$(RM) $(TARGET) $(OBJS)
+build : $(DIRS)
+	$(CXX) $(CXXFLAGS) $(SRC_DIR)/%.cpp -o $(OBJ_DIR)/%.o $(OPENCV_FLAGS) $(OPENCV_LIBS)
+	$(CXX) $(OBJ_DIR)/*.o -o $(BLD_DIR)/BFF_9
+
+run : $(BLD_DIR)/BFF_9
+	./$(BLD_DIR)/BFF_9
+
+clean :
+	rm -rf ./$(BLD_DIR)/
